@@ -1,3 +1,5 @@
+package setup;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -10,7 +12,7 @@ public class AppointmentDBSetup {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 
             // Connect to the database
-            Connection conn = DriverManager.getConnection("jdbc:derby:StudentWellnessDB/Database/wellnessDB;create=true");
+            Connection conn = DriverManager.getConnection("jdbc:derby:WellnessManagementSystem/Database.wellnessDB;create=true");
             System.out.println("Connection successful!");
 
             // Create the Appointments table if it doesn't exist

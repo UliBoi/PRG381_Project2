@@ -6,7 +6,7 @@ import java.util.List;
 import model.Appointment;
 
 public class AppointmentDAO {
-    private static final String DB_URL = "jdbc:derby:StudentWellnessDB/Database/wellnessDB;create=true";
+    private static final String DB_URL = "jdbc:derby:WellnessManagementSystem/Database.wellnessDB;create=true";
 
     // Book appointment
     public void addAppointment(Appointment appt) {
