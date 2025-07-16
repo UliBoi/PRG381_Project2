@@ -45,6 +45,32 @@ public class MainDashboard extends javax.swing.JFrame {
         btnadd = new javax.swing.JButton();
         btnview = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtName = new javax.swing.JTextField();
+        txtSpecialization = new javax.swing.JTextField();
+        cmbAvailability = new javax.swing.JComboBox<>();
+        btnAddCounselor = new javax.swing.JButton();
+        btnDeleteCounselor = new javax.swing.JButton();
+        btnViewCounselors = new javax.swing.JButton();
+        btnUpdateCounselor = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtComment = new javax.swing.JTextArea();
+        cmbRating = new javax.swing.JComboBox<>();
+        txtStudentName = new javax.swing.JTextField();
+        btnDeleteFeedback = new javax.swing.JButton();
+        btnSubmitFeedback = new javax.swing.JButton();
+        btnEditFeedback = new javax.swing.JButton();
+        btnViewFeedback = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblFeedback = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -172,23 +198,203 @@ public class MainDashboard extends javax.swing.JFrame {
                         .addComponent(btndelete)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
 
         pnlCounsoler.addTab("Appointment", jPanel1);
+
+        jLabel6.setText("Counsoler Name: ");
+
+        jLabel7.setText("Speciallization");
+
+        jLabel8.setText("Availibility");
+
+        txtName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameActionPerformed(evt);
+            }
+        });
+
+        cmbAvailability.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Unavailable" }));
+
+        btnAddCounselor.setText("Add");
+
+        btnDeleteCounselor.setText("Delete");
+
+        btnViewCounselors.setText("View");
+
+        btnUpdateCounselor.setText("Update");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 759, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(btnAddCounselor))
+                        .addGap(39, 39, 39)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtSpecialization, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
+                                .addComponent(txtName))
+                            .addComponent(cmbAvailability, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(btnUpdateCounselor)
+                                .addGap(69, 69, 69)
+                                .addComponent(btnDeleteCounselor)
+                                .addGap(42, 42, 42)
+                                .addComponent(btnViewCounselors)))))
+                .addContainerGap(386, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 557, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtSpecialization, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(cmbAvailability, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddCounselor)
+                    .addComponent(btnDeleteCounselor)
+                    .addComponent(btnViewCounselors)
+                    .addComponent(btnUpdateCounselor))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(114, Short.MAX_VALUE))
         );
 
         pnlCounsoler.addTab("Counsoler", jPanel2);
+
+        jLabel9.setText("Student Name:");
+
+        jLabel10.setText("Comment:");
+
+        jLabel11.setText("Rating:");
+
+        txtComment.setColumns(20);
+        txtComment.setRows(5);
+        jScrollPane3.setViewportView(txtComment);
+
+        cmbRating.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
+
+        btnDeleteFeedback.setText("Delete");
+
+        btnSubmitFeedback.setText("Submit");
+
+        btnEditFeedback.setText("Edit");
+        btnEditFeedback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditFeedbackActionPerformed(evt);
+            }
+        });
+
+        btnViewFeedback.setText("View");
+        btnViewFeedback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewFeedbackActionPerformed(evt);
+            }
+        });
+
+        tblFeedback.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(tblFeedback);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel10)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel11))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cmbRating, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtStudentName, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(btnSubmitFeedback)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnEditFeedback)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnDeleteFeedback)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnViewFeedback))
+                        .addComponent(jScrollPane3)))
+                .addContainerGap(401, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtStudentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(cmbRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel10)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDeleteFeedback)
+                    .addComponent(btnSubmitFeedback)
+                    .addComponent(btnEditFeedback)
+                    .addComponent(btnViewFeedback))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnlCounsoler.addTab("Feedback", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -197,7 +403,7 @@ public class MainDashboard extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(pnlCounsoler, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,6 +416,10 @@ public class MainDashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnaddActionPerformed
+
     private void txttimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttimeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txttimeActionPerformed
@@ -218,9 +428,17 @@ public class MainDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtnameActionPerformed
 
-    private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnaddActionPerformed
+    }//GEN-LAST:event_txtNameActionPerformed
+
+    private void btnEditFeedbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditFeedbackActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditFeedbackActionPerformed
+
+    private void btnViewFeedbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewFeedbackActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnViewFeedbackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,22 +476,48 @@ public class MainDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddCounselor;
+    private javax.swing.JButton btnDeleteCounselor;
+    private javax.swing.JButton btnDeleteFeedback;
+    private javax.swing.JButton btnEditFeedback;
+    private javax.swing.JButton btnSubmitFeedback;
+    private javax.swing.JButton btnUpdateCounselor;
+    private javax.swing.JButton btnViewCounselors;
+    private javax.swing.JButton btnViewFeedback;
     private javax.swing.JButton btnadd;
     private javax.swing.JButton btndelete;
     private javax.swing.JButton btnupdate;
     private javax.swing.JButton btnview;
     private javax.swing.JComboBox<String> cbxcounselor;
     private javax.swing.JComboBox<String> cbxstatus;
+    private javax.swing.JComboBox<String> cmbAvailability;
+    private javax.swing.JComboBox<String> cmbRating;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTabbedPane pnlCounsoler;
     private javax.swing.JTable tblAppointment;
+    private javax.swing.JTable tblFeedback;
+    private javax.swing.JTextArea txtComment;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtSpecialization;
+    private javax.swing.JTextField txtStudentName;
     private javax.swing.JTextField txtdate;
     private javax.swing.JTextField txtname;
     private javax.swing.JTextField txttime;
