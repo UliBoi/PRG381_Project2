@@ -3,6 +3,8 @@ package view;
 import java.sql.Connection;
 import studentwellnessdb.DBConnection;
 import studentwellnessdb.DbInit;
+import view.CounselorPanel;
+import controller.CounselorController;
 
 /**
  *
@@ -15,6 +17,14 @@ public class MainDashboard extends javax.swing.JFrame {
      */
     public MainDashboard() {
         initComponents();
+        
+         // Replace the default jPanel2 with your custom CounselorPanel
+        CounselorPanel counselorPanel = new CounselorPanel();
+    
+        // If needed, inject a controller (optional if already done in constructor)
+        // counselorPanel.injectController(new CounselorController(...));
+
+        pnlCounsoler.setComponentAt(1, counselorPanel); // Replace tab 1 (Counselor tab)
     }
 
     /**
