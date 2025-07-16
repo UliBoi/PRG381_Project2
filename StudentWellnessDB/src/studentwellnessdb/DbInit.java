@@ -7,16 +7,6 @@ public class DbInit {
     public static void TableCreation() {
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement()) {
-            
-            // Create FEEDBACK table
-            String createFeedback = "CREATE TABLE FEEDBACK (" +
-                    "id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, " +
-                    "student VARCHAR(50) NOT NULL, " +
-                    "rating INT CHECK (rating >= 1 AND rating <= 5), " +
-                    "comments VARCHAR(255)" +
-                    ")";
-            stmt.executeUpdate(createFeedback);
-            System.out.println("FEEDBACK table created successfully.");
 
             // Create APPOINTMENTS table
             String createAppointments = "CREATE TABLE APPOINTMENTS (" +
@@ -39,6 +29,16 @@ public class DbInit {
                     ")";
             stmt.executeUpdate(createCounselors);
             System.out.println("COUNSELORS table created successfully.");
+            
+            // Create FEEDBACK table
+            String createFeedback = "CREATE TABLE FEEDBACK (" +
+                    "id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, " +
+                    "student VARCHAR(50) NOT NULL, " +
+                    "rating INT CHECK (rating >= 1 AND rating <= 5), " +
+                    "comments VARCHAR(255)" +
+                    ")";
+            stmt.executeUpdate(createFeedback);
+            System.out.println("FEEDBACK table created successfully.");
 
         } catch (Exception e) {
             System.out.println("Error creating tables: " + e.getMessage());
