@@ -17,3 +17,5 @@ StudentWellnessDB/Database/*.tmp
 StudentWellnessDB/Database/*.c*
 StudentWellnessDB/Database/*.v*
 StudentWellnessDB/Database/logmirror.ctrl
+/WellnessManagementSystem/nbproject/private/
+/WellnessManagementSystem/build/
