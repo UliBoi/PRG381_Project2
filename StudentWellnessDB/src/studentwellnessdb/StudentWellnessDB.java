@@ -1,6 +1,8 @@
 package studentwellnessdb;
 
 import java.sql.Connection;
+//import model.Feedback;
+//import model.FeedbackDAO;
 
 public class StudentWellnessDB {
 
@@ -11,5 +13,9 @@ public class StudentWellnessDB {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
+        
+//        Feedback fb = new Feedback("John Doe", 5, "Excellent session!");
+//
+//        FeedbackDAO.insertFeedback(fb);
     }
 }
