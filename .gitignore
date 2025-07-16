@@ -9,3 +9,11 @@ nbproject/private/
 *.iml
 *.DS_Store
 Thumbs.db
+
+StudentWellnessDB/Database/*.lck
+StudentWellnessDB/Database/*.log
+StudentWellnessDB/Database/*.dat
+StudentWellnessDB/Database/*.tmp
+StudentWellnessDB/Database/*.c*
+StudentWellnessDB/Database/*.v*
+StudentWellnessDB/Database/logmirror.ctrl
