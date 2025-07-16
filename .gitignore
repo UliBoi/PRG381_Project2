@@ -1,0 +1,11 @@
+/StudentWellnessSystemDB/nbproject/private/
+/StudentWellnessDB/nbproject/private/
+/StudentWellnessDB/build/
+/StudentWellnessDB/dist/
+Java/
+nbproject/private/
+*.log
+*.class
+*.iml
+*.DS_Store
+Thumbs.db
