@@ -1,2 +1,10 @@
 /WellnessManagementSystem/nbproject/private/
 /WellnessManagementSystem/build/
+WellnessManagementSystem/Database/wellnessDB/**/*.dat
+WellnessManagementSystem/Database/wellnessDB/**/*.lck
+WellnessManagementSystem/Database/wellnessDB/**/*.log
+WellnessManagementSystem/Database/wellnessDB/**/*.tmp
+WellnessManagementSystem/Database/wellnessDB/**/*.c*
+WellnessManagementSystem/Database/wellnessDB/**/*.v*
+WellnessManagementSystem/Database/wellnessDB/**/logmirror.ctrl
+WellnessManagementSystem/Database/wellnessDB/**/log.ctrl
