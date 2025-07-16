@@ -17,15 +17,12 @@ WellnessManagementSystem/Database/wellnessDB/**/*.c*
 WellnessManagementSystem/Database/wellnessDB/**/*.v*
 WellnessManagementSystem/Database/wellnessDB/**/logmirror.ctrl
 WellnessManagementSystem/Database/wellnessDB/**/log.ctrl
-WellnessManagementSystem\Database\wellnessDB\log\log.ctrl
-WellnessManagementSystem\Database\wellnessDB\log\logmirror.ctrl
 /WellnessManagementSystem/nbproject/private/
 /WellnessManagementSystem/build/
 
 WellnessManagementSystem/Database/wellnessDB/**/log.ctrl
 WellnessManagementSystem/Database/wellnessDB/**/logmirror.ctrl
 WellnessManagementSystem/Database/wellnessDB/**/service.properties
-WellnessManagementSystem\Database\wellnessDB\service.properties
 
 WellnessManagementSystem/nbproject/private/
-WellnessManagementSystem\nbproject\private\private.xml
+
