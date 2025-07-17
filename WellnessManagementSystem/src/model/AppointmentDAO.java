@@ -9,11 +9,11 @@ public class AppointmentDAO {
     // Book appointment
     public void addAppointment(Appointment appt) {
         try (Connection conn = DBConnection.getConnection()) {
-            String sql = "INSERT INTO Appointments (student, counselor, appointment_date, appointment_time, status) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Appointments (student, counselor, date, time, status) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, appt.getStudent());
             ps.setString(2, appt.getCounselor());
-            ps.setDate(3, Date.valueOf(appt.getDate()));
+            ps.setDate(3, appt.getDate());
             ps.setTime(4, Time.valueOf(appt.getTime() + ":00"));
             ps.setString(5, appt.getStatusValue());
             ps.executeUpdate();
@@ -34,8 +34,8 @@ public class AppointmentDAO {
                 list.add(new Appointment(
                         rs.getString("student"),
                         rs.getString("counselor"),
-                        rs.getDate("appointment_date").toString(),
-                        rs.getTime("appointment_time").toString().substring(0, 5),
+                        rs.getDate("date").toString(),
+                        rs.getTime("time").toString().substring(0, 5),
                         rs.getString("status")  // This will use the String constructor
                 ));
             }

@@ -1,9 +1,11 @@
 package model;
 
+import java.sql.Date;
+
 public class Appointment {
     private String student;
     private String counselor;
-    private String date;
+    private Date date;
     private String time;
     private Status status;  // Changed from String to enum
 
@@ -37,7 +39,7 @@ public class Appointment {
     }
 
     // Constructors
-    public Appointment(String student, String counselor, String date, String time, Status status) {
+    public Appointment(String student, String counselor, Date date, String time, Status status) {
         this.student = student;
         this.counselor = counselor;
         this.date = date;
@@ -46,8 +48,8 @@ public class Appointment {
     }
 
 
-    public Appointment(String student, String counselor, String date, String time, String status) {
-        this(student, counselor, date, time, Status.fromString(status));
+    public Appointment(String student, String counselor, String dateStr, String time, String status) {
+        this(student, counselor, Date.valueOf(dateStr), time, Status.fromString(status));
     }
 
     // Getters & Setters
@@ -57,8 +59,8 @@ public class Appointment {
     public String getCounselor() { return counselor; }
     public void setCounselor(String counselor) { this.counselor = counselor; }
 
-    public String getDate() { return date; }
-    public void setDate(String date) { this.date = date; }
+    public Date getDate() { return date; }
+    public void setDate(Date date) { this.date = date; }
 
     public String getTime() { return time; }
     public void setTime(String time) { this.time = time; }
@@ -78,6 +80,6 @@ public class Appointment {
 
     @Override
     public String toString() {
-        return student + " - " + counselor + " on " + date + " at " + time + " [" + status + "]";
+        return student + " - " + counselor + " on " + date.toString() + " at " + time + " [" + status + "]";
     }
 }
