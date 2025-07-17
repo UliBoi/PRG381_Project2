@@ -36,15 +36,9 @@ public class MainDashboard extends javax.swing.JFrame {
         initComponents();
         // Load counselors into dropdown
         loadCounselors();
-        
-        
-         // Replace the default jPanel2 with your custom CounselorPanel
-        //CounselorPanel counselorPanel = new CounselorPanel();
-    
-        // If needed, inject a controller (optional if already done in constructor)
-        // counselorPanel.injectController(new CounselorController(...));
-
-        //pnlCounsoler.setComponentAt(1, counselorPanel); // Replace tab 1 (Counselor tab)
+        // Set placeholders for date and time
+        addPlaceholder(txtDate, "yyyy-mm-dd");
+        addPlaceholder(txtTime, "HH:mm");
     }
 
     /**
@@ -280,7 +274,7 @@ public class MainDashboard extends javax.swing.JFrame {
 
         pnlCounsoler.addTab("Appointment", jPanel1);
 
-        jLabel6.setText("Counsoler Name: ");
+        jLabel6.setText("Counselor Name: ");
 
         jLabel7.setText("Speciallization");
 
@@ -406,7 +400,7 @@ public class MainDashboard extends javax.swing.JFrame {
                 .addContainerGap(114, Short.MAX_VALUE))
         );
 
-        pnlCounsoler.addTab("Counsoler", jPanel2);
+        pnlCounsoler.addTab("Counselor", jPanel2);
 
         jLabel9.setText("Student Name:");
 
@@ -571,18 +565,44 @@ public class MainDashboard extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Time field is empty!");
         return;
     }
-
-    // Validate time format
-    try {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime.parse(timeStr, formatter); // throws if invalid
-    } catch (DateTimeParseException e) {
-        JOptionPane.showMessageDialog(this, "Invalid time format. Use HH:mm (e.g., 14:30)");
-        return;
+    
+    //Validate Student Name
+    if (!student.matches("[A-Za-z ]+")) {
+    JOptionPane.showMessageDialog(this, "Student name should only contain letters and spaces.");
+    return;
     }
+    
+    //Validate Date
+    java.sql.Date sqlDate;
+        try {
+            // Convert date string to java.sql.Date
+            sqlDate = java.sql.Date.valueOf(dateStr);
+            java.time.LocalDate today = java.time.LocalDate.now();
+            if (sqlDate.toLocalDate().isBefore(today)) {
+                JOptionPane.showMessageDialog(this, "Date cannot be in the past.");
+                return;
+            }
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, "Invalid date format. Use yyyy-MM-dd (e.g., 2025-07-20).");
+            return;
+        }
 
-    // Convert date string to java.sql.Date
-    java.sql.Date sqlDate = java.sql.Date.valueOf(dateStr);
+    // Validate time
+        LocalTime time;
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            time = LocalTime.parse(timeStr, formatter);
+
+            LocalTime start = LocalTime.of(8, 0);   // 08:00
+            LocalTime end = LocalTime.of(17, 0);    // 17:00
+            if (time.isBefore(start) || time.isAfter(end)) {
+                JOptionPane.showMessageDialog(this, "Appointments must be between 08:00 and 17:00.");
+                return;
+            }
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "Invalid time format. Use HH:mm (e.g., 14:30).");
+            return;
+        }
 
     Appointment appt = new Appointment(student, counselor, dateStr, timeStr, status);
 
@@ -623,6 +643,9 @@ public class MainDashboard extends javax.swing.JFrame {
         String student = txtFeedbackStudent.getText().trim();
         int rating = Integer.parseInt(cmbFeedbackRating.getSelectedItem().toString());
         String comment = txtFeedbackComment.getText().trim();
+        
+        int confirm = JOptionPane.showConfirmDialog(this, "Do you want to save these changes?", "Confirm Update", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) return;
 
         feedbackController.updateFeedback(id, student, rating, comment);
         JOptionPane.showMessageDialog(this, "Feedback updated.");
@@ -655,6 +678,16 @@ public class MainDashboard extends javax.swing.JFrame {
     // Validate input
     if (name.isEmpty() || specialization.isEmpty() || availability == null) {
         JOptionPane.showMessageDialog(this, "Please fill in all fields.");
+        return;
+    }
+    
+    //Blocks any input that is nonsensical
+    if (!name.matches("[A-Za-z ]+") || name.length() < 2) {
+        JOptionPane.showMessageDialog(this, "Counselor name must be at least 2 characters and only contain letters.");
+        return;
+    }
+    if (specialization.trim().length() < 3) {
+        JOptionPane.showMessageDialog(this, "Specialization must be at least 3 characters.");
         return;
     }
 
@@ -702,6 +735,8 @@ public class MainDashboard extends javax.swing.JFrame {
 
         // Update
         controller.updateCounselor(id, name, specialization, availability);
+        int confirm = JOptionPane.showConfirmDialog(this, "Do you want to save these changes?", "Confirm Update", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) return;
         JOptionPane.showMessageDialog(this, "Counselor updated successfully.");
 
         // Refresh
@@ -782,6 +817,10 @@ public class MainDashboard extends javax.swing.JFrame {
         LocalTime.parse(timeStr, formatter); // Check if valid
 
         Appointment appt = new Appointment(student, counselor, sqlDate, timeStr, status);
+        
+        int confirm = JOptionPane.showConfirmDialog(this, "Do you want to save these changes?", "Confirm Update", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) return;
+        
         appointmentController.updateAppointment(appt);
 
         JOptionPane.showMessageDialog(this, "Appointment updated.");
@@ -849,6 +888,11 @@ public class MainDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Student name is required.");
             return;
         }
+        //Validate Student Name
+        if (!student.matches("[A-Za-z ]+")) {
+            JOptionPane.showMessageDialog(this, "Student name should only contain letters and spaces.");
+            return;
+        }       
 
         feedbackController.submitFeedback(student, rating, comment);
         JOptionPane.showMessageDialog(this, "Feedback submitted.");
@@ -868,6 +912,9 @@ public class MainDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please select feedback to delete.");
             return;
         }
+        
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this feedback?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) return;
 
         int id = Integer.parseInt(tblFeedback.getValueAt(selectedRow, 0).toString());
         feedbackController.deleteFeedback(id);
@@ -1054,7 +1101,28 @@ private void loadFeedbackIntoTable() {
     }
 }
 
+private void addPlaceholder(javax.swing.JTextField field, String placeholder) {
+    field.setText(placeholder);
+    field.setForeground(java.awt.Color.GRAY);
 
+    field.addFocusListener(new java.awt.event.FocusAdapter() {
+        @Override
+        public void focusGained(java.awt.event.FocusEvent e) {
+            if (field.getText().equals(placeholder)) {
+                field.setText("");
+                field.setForeground(java.awt.Color.BLACK);
+            }
+        }
+
+        @Override
+        public void focusLost(java.awt.event.FocusEvent e) {
+            if (field.getText().isEmpty()) {
+                field.setText(placeholder);
+                field.setForeground(java.awt.Color.GRAY);
+            }
+        }
+    });
+}
 
   
 }
