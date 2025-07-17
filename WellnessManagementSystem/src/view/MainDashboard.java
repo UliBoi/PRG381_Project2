@@ -9,12 +9,14 @@ import controller.AppointmentController;
 import controller.FeedbackController;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Appointment;
 import model.Counselor;
+import model.Feedback;
 
 /**
  *
@@ -22,12 +24,15 @@ import model.Counselor;
  */
 public class MainDashboard extends javax.swing.JFrame {
     private final CounselorController controller = new CounselorController();
-    private final AppointmentController appointmentController = new AppointmentController();
+    private AppointmentController appointmentController = new AppointmentController();
+    FeedbackController feedbackController = new FeedbackController();
+
 
     /**
      * Creates new form MainDashboard
      */
     public MainDashboard() {
+        
         initComponents();
         // Load counselors into dropdown
         loadCounselors();
@@ -87,9 +92,9 @@ public class MainDashboard extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        txtComment = new javax.swing.JTextArea();
-        cmbRating = new javax.swing.JComboBox<>();
-        txtStudentName = new javax.swing.JTextField();
+        txtFeedbackComment = new javax.swing.JTextArea();
+        cmbFeedbackRating = new javax.swing.JComboBox<>();
+        txtFeedbackStudent = new javax.swing.JTextField();
         btnDeleteFeedback = new javax.swing.JButton();
         btnSubmitFeedback = new javax.swing.JButton();
         btnEditFeedback = new javax.swing.JButton();
@@ -120,6 +125,7 @@ public class MainDashboard extends javax.swing.JFrame {
 
         jLabel4.setText("Time");
 
+        txtDate.setText("yyyy-mm-dd");
         txtDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDateActionPerformed(evt);
@@ -140,12 +146,35 @@ public class MainDashboard extends javax.swing.JFrame {
             new String [] {
                 "Student", "Counselor", "Date", "Time", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblAppointment.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAppointmentMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblAppointment);
 
         btnupdate.setText("Update Appointment");
+        btnupdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnupdateActionPerformed(evt);
+            }
+        });
 
         btndelete.setText("Delete Appointment");
+        btndelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndeleteActionPerformed(evt);
+            }
+        });
 
         btnadd.setText("Add Appointment");
         btnadd.addActionListener(new java.awt.event.ActionListener() {
@@ -155,7 +184,13 @@ public class MainDashboard extends javax.swing.JFrame {
         });
 
         btnview.setText("View All  ");
+        btnview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnviewActionPerformed(evt);
+            }
+        });
 
+        txtTime.setText("XX:XX");
         txtTime.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTimeActionPerformed(evt);
@@ -297,7 +332,15 @@ public class MainDashboard extends javax.swing.JFrame {
             new String [] {
                 "ID", "Name", "Speciallization", "Availability"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblCounsoler.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblCounsolerMouseClicked(evt);
@@ -371,15 +414,25 @@ public class MainDashboard extends javax.swing.JFrame {
 
         jLabel11.setText("Rating:");
 
-        txtComment.setColumns(20);
-        txtComment.setRows(5);
-        jScrollPane3.setViewportView(txtComment);
+        txtFeedbackComment.setColumns(20);
+        txtFeedbackComment.setRows(5);
+        jScrollPane3.setViewportView(txtFeedbackComment);
 
-        cmbRating.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
+        cmbFeedbackRating.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
 
         btnDeleteFeedback.setText("Delete");
+        btnDeleteFeedback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteFeedbackActionPerformed(evt);
+            }
+        });
 
         btnSubmitFeedback.setText("Submit");
+        btnSubmitFeedback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitFeedbackActionPerformed(evt);
+            }
+        });
 
         btnEditFeedback.setText("Edit");
         btnEditFeedback.addActionListener(new java.awt.event.ActionListener() {
@@ -403,9 +456,22 @@ public class MainDashboard extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Student", "Rating", "Comments "
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblFeedback.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblFeedbackMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tblFeedback);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -415,7 +481,6 @@ public class MainDashboard extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel10)
                         .addGroup(jPanel3Layout.createSequentialGroup()
@@ -424,8 +489,8 @@ public class MainDashboard extends javax.swing.JFrame {
                                 .addComponent(jLabel11))
                             .addGap(18, 18, 18)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cmbRating, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtStudentName, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(cmbFeedbackRating, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtFeedbackStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel3Layout.createSequentialGroup()
                             .addComponent(btnSubmitFeedback)
                             .addGap(18, 18, 18)
@@ -434,8 +499,9 @@ public class MainDashboard extends javax.swing.JFrame {
                             .addComponent(btnDeleteFeedback)
                             .addGap(18, 18, 18)
                             .addComponent(btnViewFeedback))
-                        .addComponent(jScrollPane3)))
-                .addContainerGap(401, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(384, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -443,11 +509,11 @@ public class MainDashboard extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(txtStudentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFeedbackStudent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(cmbRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbFeedbackRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addGap(18, 18, 18)
@@ -486,50 +552,50 @@ public class MainDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
-     try {
-        String student = txtstudentname.getText().trim();
-        String counselor = cmxCounselor.getSelectedItem().toString();
-        String dateStr = txtDate.getText().trim();     // Format: yyyy-MM-dd
-        String timeStr = txtTime.getText().trim();     // Format: HH:mm
-        String status = cmbStatus.getSelectedItem().toString();
+  try {
+    String student = txtstudentname.getText().trim();
+    String counselor = cmxCounselor.getSelectedItem().toString();
+    String dateStr = txtDate.getText().trim();     // Format: yyyy-MM-dd
+    String timeStr = txtTime.getText().trim();     // Format: HH:mm
+    String status = cmbStatus.getSelectedItem().toString();
 
-        if (student.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Student field is empty!");
-    return;
-        }
-        if (dateStr.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Date field is empty!");
-    return;
-        }
-        if (timeStr.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Time field is empty!");
-    return;
+    if (student.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Student field is empty!");
+        return;
+    }
+    if (dateStr.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Date field is empty!");
+        return;
+    }
+    if (timeStr.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Time field is empty!");
+        return;
     }
 
-
-        // Convert date and time safely
-        java.sql.Date sqlDate = java.sql.Date.valueOf(dateStr);
+    // Validate time format
+    try {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime.parse(timeStr, formatter); // Throws error if invalid
+        LocalTime.parse(timeStr, formatter); // throws if invalid
+    } catch (DateTimeParseException e) {
+        JOptionPane.showMessageDialog(this, "Invalid time format. Use HH:mm (e.g., 14:30)");
+        return;
+    }
 
+    // Convert date string to java.sql.Date
+    java.sql.Date sqlDate = java.sql.Date.valueOf(dateStr);
 
-       // Convert String status to enum
-         Appointment.Status enumStatus = Appointment.Status.valueOf(status.toUpperCase());
+    Appointment appt = new Appointment(student, counselor, dateStr, timeStr, status);
 
+    appointmentController.addAppointment(appt);
 
+    JOptionPane.showMessageDialog(this, "Appointment added.");
+    loadAppointmentsIntoTable();  // Refresh table
+    clearAppointmentForm();      // Optional reset
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Invalid date format or system error.");
+    e.printStackTrace();
+}
 
-        Appointment appt = new Appointment(student, counselor, sqlDate, timeStr, enumStatus);
-
-
-        appointmentController.addAppointment(appt);
-
-        JOptionPane.showMessageDialog(this, "Appointment added.");
-        loadAppointmentsIntoTable();  // Refresh table
-        clearAppointmentForm();      // Optional reset
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Invalid date/time format.");
-        e.printStackTrace();
-    }   // Create this method if needed
   // TODO add your handling code here:
     }//GEN-LAST:event_btnaddActionPerformed
 
@@ -546,11 +612,31 @@ public class MainDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNameActionPerformed
 
     private void btnEditFeedbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditFeedbackActionPerformed
-        // TODO add your handling code here:
+    try {
+        int selectedRow = tblFeedback.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select feedback to edit.");
+            return;
+        }
+
+        int id = Integer.parseInt(tblFeedback.getValueAt(selectedRow, 0).toString()); // ID must be first column
+        String student = txtFeedbackStudent.getText().trim();
+        int rating = Integer.parseInt(cmbFeedbackRating.getSelectedItem().toString());
+        String comment = txtFeedbackComment.getText().trim();
+
+        feedbackController.updateFeedback(id, student, rating, comment);
+        JOptionPane.showMessageDialog(this, "Feedback updated.");
+
+        loadFeedbackIntoTable();
+        clearFeedbackForm();
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error updating feedback.");
+    }    // TODO add your handling code here:
     }//GEN-LAST:event_btnEditFeedbackActionPerformed
 
     private void btnViewFeedbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewFeedbackActionPerformed
-        // TODO add your handling code here:
+    loadFeedbackIntoTable();        // TODO add your handling code here:
     }//GEN-LAST:event_btnViewFeedbackActionPerformed
 
     private void cmxCounselorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxCounselorActionPerformed
@@ -678,6 +764,133 @@ public class MainDashboard extends javax.swing.JFrame {
  // TODO add your handling code here:
     }//GEN-LAST:event_btnDeleteCounselorActionPerformed
 
+    private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
+ try {
+        String student = txtstudentname.getText().trim();
+        String counselor = cmxCounselor.getSelectedItem().toString();
+        String dateStr = txtDate.getText().trim(); // yyyy-MM-dd
+        String timeStr = txtTime.getText().trim(); // HH:mm
+        String status = cmbStatus.getSelectedItem().toString();
+
+        if (student.isEmpty() || dateStr.isEmpty() || timeStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill in all fields.");
+            return;
+        }
+
+        java.sql.Date sqlDate = java.sql.Date.valueOf(dateStr);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime.parse(timeStr, formatter); // Check if valid
+
+        Appointment appt = new Appointment(student, counselor, sqlDate, timeStr, status);
+        appointmentController.updateAppointment(appt);
+
+        JOptionPane.showMessageDialog(this, "Appointment updated.");
+        loadAppointmentsIntoTable();
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error updating appointment.");
+    }    
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnupdateActionPerformed
+
+    private void btnviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnviewActionPerformed
+        loadAppointmentsIntoTable();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnviewActionPerformed
+
+    private void tblAppointmentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAppointmentMouseClicked
+
+    int selectedRow = tblAppointment.getSelectedRow();
+    if (selectedRow != -1) {
+        txtstudentname.setText(tblAppointment.getValueAt(selectedRow, 0).toString());
+        cmxCounselor.setSelectedItem(tblAppointment.getValueAt(selectedRow, 1).toString());
+        txtDate.setText(tblAppointment.getValueAt(selectedRow, 2).toString());
+        txtTime.setText(tblAppointment.getValueAt(selectedRow, 3).toString());
+        cmbStatus.setSelectedItem(tblAppointment.getValueAt(selectedRow, 4).toString());
+    }
+
+            // TODO add your handling code here:
+    }//GEN-LAST:event_tblAppointmentMouseClicked
+
+    private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
+       try {
+        int selectedRow = tblAppointment.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select an appointment to delete.");
+            return;
+        }
+
+        String student = tblAppointment.getValueAt(selectedRow, 0).toString();
+        String dateStr = tblAppointment.getValueAt(selectedRow, 2).toString();  // Format: yyyy-MM-dd
+        String timeStr = tblAppointment.getValueAt(selectedRow, 3).toString();  // Format: HH:mm
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this appointment?", "Confirm", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        appointmentController.deleteAppointment(student, dateStr, timeStr);
+        JOptionPane.showMessageDialog(this, "Appointment deleted successfully.");
+        loadAppointmentsIntoTable();
+        clearAppointmentForm();
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error deleting appointment.");
+    }  // TODO add your handling code here:
+    }//GEN-LAST:event_btndeleteActionPerformed
+
+    private void btnSubmitFeedbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitFeedbackActionPerformed
+      try {
+        String student = txtFeedbackStudent.getText().trim();
+        int rating = Integer.parseInt(cmbFeedbackRating.getSelectedItem().toString());
+        String comment = txtFeedbackComment.getText().trim();
+
+        if (student.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Student name is required.");
+            return;
+        }
+
+        feedbackController.submitFeedback(student, rating, comment);
+        JOptionPane.showMessageDialog(this, "Feedback submitted.");
+
+        loadFeedbackIntoTable(); // Refresh table
+        clearFeedbackForm();     // Clear form
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error submitting feedback.");
+    }  // TODO add your handling code here:
+    }//GEN-LAST:event_btnSubmitFeedbackActionPerformed
+
+    private void btnDeleteFeedbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteFeedbackActionPerformed
+      try {
+        int selectedRow = tblFeedback.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select feedback to delete.");
+            return;
+        }
+
+        int id = Integer.parseInt(tblFeedback.getValueAt(selectedRow, 0).toString());
+        feedbackController.deleteFeedback(id);
+
+        JOptionPane.showMessageDialog(this, "Feedback deleted.");
+        loadFeedbackIntoTable();
+        clearFeedbackForm();
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error deleting feedback.");
+    }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeleteFeedbackActionPerformed
+
+    private void tblFeedbackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFeedbackMouseClicked
+    int selectedRow = tblFeedback.getSelectedRow();
+if (selectedRow != -1) {
+    txtFeedbackStudent.setText(tblFeedback.getValueAt(selectedRow, 1).toString());
+    cmbFeedbackRating.setSelectedItem(tblFeedback.getValueAt(selectedRow, 2).toString());
+    txtFeedbackComment.setText(tblFeedback.getValueAt(selectedRow, 3).toString());
+}
+    // TODO add your handling code here:
+    }//GEN-LAST:event_tblFeedbackMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -712,7 +925,7 @@ public class MainDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnupdate;
     private javax.swing.JButton btnview;
     private javax.swing.JComboBox<String> cmbAvailability;
-    private javax.swing.JComboBox<String> cmbRating;
+    private javax.swing.JComboBox<String> cmbFeedbackRating;
     private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JComboBox<String> cmxCounselor;
     private javax.swing.JLabel jLabel1;
@@ -737,11 +950,11 @@ public class MainDashboard extends javax.swing.JFrame {
     private javax.swing.JTable tblAppointment;
     private javax.swing.JTable tblCounsoler;
     private javax.swing.JTable tblFeedback;
-    private javax.swing.JTextArea txtComment;
     private javax.swing.JTextField txtDate;
+    private javax.swing.JTextArea txtFeedbackComment;
+    private javax.swing.JTextField txtFeedbackStudent;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtSpecialization;
-    private javax.swing.JTextField txtStudentName;
     private javax.swing.JTextField txtTime;
     private javax.swing.JTextField txtstudentname;
     // End of variables declaration//GEN-END:variables
@@ -760,11 +973,16 @@ public class MainDashboard extends javax.swing.JFrame {
     cmbAvailability.setSelectedIndex(0);
 }
 private void clearAppointmentForm() {
-    txtStudentName.setText("");
+    txtFeedbackStudent.setText("");
     cmxCounselor.setSelectedIndex(0);
     txtDate.setText("");
     txtTime.setText("");
     cmbStatus.setSelectedIndex(0);
+}
+private void clearFeedbackForm() {
+    txtFeedbackStudent.setText("");
+    txtFeedbackComment.setText("");
+    cmbFeedbackRating.setSelectedIndex(0);
 }
 
     
@@ -780,11 +998,34 @@ private void loadAppointmentsIntoTable() {
                 appt.getCounselor(),
                 appt.getDate().toString(),
                 appt.getTime(),
-                appt.getStatusValue()
+                appt.getStatus()
             });
         }
     }
 }
+private void loadFeedbackIntoTable() {
+    try {
+        List<Feedback> feedbackList = feedbackController.getAllFeedback();
+        DefaultTableModel model = (DefaultTableModel) tblFeedback.getModel();
+
+        // Clear existing rows
+        model.setRowCount(0);
+
+        // Add each feedback entry
+        for (Feedback fb : feedbackList) {
+            model.addRow(new Object[]{
+                fb.getId(),
+                fb.getStudent(),
+                fb.getRating(),
+                fb.getComments()
+            });
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error loading feedback data.");
+    }
+}
+
 
     
 

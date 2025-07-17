@@ -1,5 +1,4 @@
 package model;
-
 import java.sql.Date;
 
 public class Appointment {
@@ -7,39 +6,10 @@ public class Appointment {
     private String counselor;
     private Date date;
     private String time;
-    private Status status;  // Changed from String to enum
+    private String status;  // Now just a plain String
 
-    // Define possible status values as an enum
-    public enum Status {
-        SCHEDULED("Scheduled"),
-        CONFIRMED("Confirmed"),
-        CANCELLED("Cancelled"),
-        COMPLETED("Completed");
-
-        private final String displayName;
-
-        Status(String displayName) {
-            this.displayName = displayName;
-        }
-
-        @Override
-        public String toString() {
-            return displayName;
-        }
-
-
-        public static Status fromString(String text) {
-            for (Status s : Status.values()) {
-                if (s.displayName.equalsIgnoreCase(text)) {
-                    return s;
-                }
-            }
-            throw new IllegalArgumentException("No constant with text " + text + " found");
-        }
-    }
-
-    // Constructors
-    public Appointment(String student, String counselor, Date date, String time, Status status) {
+    // Constructor
+    public Appointment(String student, String counselor, Date date, String time, String status) {
         this.student = student;
         this.counselor = counselor;
         this.date = date;
@@ -47,10 +17,9 @@ public class Appointment {
         this.status = status;
     }
 
-
     public Appointment(String student, String counselor, String dateStr, String time, String status) {
-        this(student, counselor, Date.valueOf(dateStr), time, Status.fromString(status));
-    }
+    this(student, counselor, Date.valueOf(dateStr), time, status);  
+}       
 
     // Getters & Setters
     public String getStudent() { return student; }
@@ -65,18 +34,8 @@ public class Appointment {
     public String getTime() { return time; }
     public void setTime(String time) { this.time = time; }
 
-    public Status getStatus() { return status; }
-    public void setStatus(Status status) { this.status = status; }
-
-
-    public void setStatus(String status) {
-        this.status = Status.fromString(status);
-    }
-
-
-    public String getStatusValue() {
-        return status.name();  // Returns "SCHEDULED", "CONFIRMED" etc.
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
     @Override
     public String toString() {

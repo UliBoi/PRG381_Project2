@@ -12,14 +12,34 @@ public class AppointmentController {
     }
 
     // Book new appointment
-    public void addAppointment(Appointment appt) {
+
+public void addAppointment(Appointment appt) {
     try {
-        dao.addAppointment(appt);
-        System.out.println("Appointment added.");
+        dao.addAppointment(appt);  // Call the DAO method to insert into DB
     } catch (Exception e) {
-        System.err.println("Error booking appointment: " + e.getMessage());
+        System.err.println("Error adding appointment: " + e.getMessage());
     }
 }
+
+public void updateAppointment(Appointment appt) {
+    try {
+        dao.updateAppointment(appt);
+    } catch (Exception e) {
+        System.err.println("Error updating appointment: " + e.getMessage());
+    }
+}
+
+public void deleteAppointment(String student, String dateStr, String timeStr) {
+    try {
+        dao.deleteAppointment(student, dateStr, timeStr);
+    } catch (Exception e) {
+        System.err.println("Error deleting appointment: " + e.getMessage());
+    }
+}
+
+
+
+
 
 
     // View all appointments
@@ -50,8 +70,9 @@ public class AppointmentController {
         }
     }
 
-    public Appointment.Status[] getStatusOptions() {
-        return dao.getPossibleStatuses();
-    }
+   public String[] getStatusOptions() {
+    return new String[] { "Scheduled", "Confirmed", "Cancelled", "Completed" };
+}
+
 }
 
