@@ -6,20 +6,20 @@ public class Feedback {
     private int rating;
     private String comments;
 
-    // Constructor without ID
+    //Constructor without ID
     public Feedback(String student, int rating, String comments) {
         this.student = student;
         this.rating = rating;
         this.comments = comments;
     }
 
-    // Constructor with ID
+    //Constructor with ID
     public Feedback(int id, String student, int rating, String comments) {
         this(student, rating, comments);
         this.id = id;
     }
 
-    // --- Getters ---
+    //Getters
     public int getId() {
         return id;
     }
@@ -36,7 +36,7 @@ public class Feedback {
         return comments;
     }
 
-    // --- Setters ---
+    //Setters 
     public void setId(int id) {
         this.id = id;
     }

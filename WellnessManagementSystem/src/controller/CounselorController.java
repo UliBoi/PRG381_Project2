@@ -5,10 +5,11 @@ import model.Counselor;
 import java.util.List;
 
 public class CounselorController {
+
     private final CounselorDAO dao;
 
     public CounselorController() {
-        this.dao = new CounselorDAO(); // DAO handles DB connection internally
+        this.dao = new CounselorDAO();
     }
 
     // Add a new counselor
@@ -32,10 +33,11 @@ public class CounselorController {
         }
     }
 
-    // Update existing counselor
-    public void updateCounselor(Counselor counselor) {
+    // Update an existing counselor
+    public void updateCounselor(int id, String name, String specialization, String availability) {
+        Counselor updated = new Counselor(id, name, specialization, availability);
         try {
-            dao.updateCounselor(counselor);
+            dao.updateCounselor(updated);
             System.out.println("Counselor updated.");
         } catch (Exception e) {
             System.err.println("Error updating counselor: " + e.getMessage());

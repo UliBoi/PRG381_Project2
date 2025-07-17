@@ -7,7 +7,7 @@ import studentwellnessdb.DBConnection;
 public class FeedbackDAO {
 
     // INSERT new feedback
-    public static void insertFeedback(Feedback fb) {
+    public void insertFeedback(Feedback fb) {
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "INSERT INTO FEEDBACK (student, rating, comments) VALUES (?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -22,7 +22,7 @@ public class FeedbackDAO {
     }
 
     // SELECT all feedback entries
-    public static List<Feedback> getAllFeedback() {
+    public List<Feedback> getAllFeedback() {
         List<Feedback> feedbackList = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "SELECT * FROM FEEDBACK";
@@ -44,7 +44,7 @@ public class FeedbackDAO {
     }
 
     // UPDATE feedback by ID
-    public static void updateFeedback(Feedback fb) {
+    public void updateFeedback(Feedback fb) {
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "UPDATE FEEDBACK SET student = ?, rating = ?, comments = ? WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -64,7 +64,7 @@ public class FeedbackDAO {
     }
 
     // DELETE feedback by ID
-    public static void deleteFeedback(int id) {
+    public void deleteFeedback(int id) {
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "DELETE FROM FEEDBACK WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);

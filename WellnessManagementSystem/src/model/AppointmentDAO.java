@@ -1,25 +1,24 @@
 package model;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import studentwellnessdb.DBConnection;
 
 public class AppointmentDAO {
-    private static final String DB_URL = "jdbc:derby:WellnessManagementSystem/Database.wellnessDB;create=true";
 
     // Book appointment
     public void addAppointment(Appointment appt) {
-        try (Connection conn = DriverManager.getConnection(DB_URL)) {
+        try (Connection conn = DBConnection.getConnection()) {
             String sql = "INSERT INTO Appointments (student, counselor, appointment_date, appointment_time, status) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, appt.getStudent());
             ps.setString(2, appt.getCounselor());
             ps.setDate(3, Date.valueOf(appt.getDate()));
             ps.setTime(4, Time.valueOf(appt.getTime() + ":00"));
-            ps.setString(5, appt.getStatusValue());  // Use getStatusValue() instead of getStatus()
+            ps.setString(5, appt.getStatusValue());
             ps.executeUpdate();
-            System.out.println("✅ Appointment booked successfully.");
-        } catch (SQLException e) {
+            System.out.println("Appointment booked successfully.");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -27,7 +26,7 @@ public class AppointmentDAO {
     // View all appointments
     public List<Appointment> getAllAppointments() {
         List<Appointment> list = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(DB_URL)) {
+        try (Connection conn = DBConnection.getConnection()) {
             String sql = "SELECT * FROM Appointments";
             ResultSet rs = conn.createStatement().executeQuery(sql);
 
@@ -40,26 +39,25 @@ public class AppointmentDAO {
                         rs.getString("status")  // This will use the String constructor
                 ));
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
 
-    // Update status - now using Appointment.Status enum
+    // Update status using Appointment.Status enum
     public void updateStatus(int id, Appointment.Status newStatus) {
-        try (Connection conn = DriverManager.getConnection(DB_URL)) {
+        try (Connection conn = DBConnection.getConnection()) {
             String sql = "UPDATE Appointments SET status = ? WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, newStatus.name());  // Convert enum to String
             ps.setInt(2, id);
             int rows = ps.executeUpdate();
             System.out.println(rows > 0 ? "Appointment updated." : " Appointment not found.");
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     public void updateStatus(int id, String newStatus) {
         try {
@@ -71,13 +69,13 @@ public class AppointmentDAO {
 
     // Cancel (delete)
     public void cancelAppointment(int id) {
-        try (Connection conn = DriverManager.getConnection(DB_URL)) {
+        try (Connection conn = DBConnection.getConnection()) {
             String sql = "DELETE FROM Appointments WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
             int rows = ps.executeUpdate();
             System.out.println(rows > 0 ? "Appointment cancelled." : " Appointment not found.");
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -7,7 +7,7 @@ import java.util.*;
 public class CounselorDAO {
 
     // INSERT new counselor
-    public static void addCounselor(Counselor counselor){
+    public void addCounselor(Counselor counselor){
         
         try (Connection conn = DBConnection.getConnection()){
             String sql = "INSERT INTO COUNSELORS (name, specialization, availability) VALUES (?, ?, ?)";
@@ -25,7 +25,7 @@ public class CounselorDAO {
     }
 
     // GET all counselors
-    public static List<Counselor> getAllCounselors() {
+    public List<Counselor> getAllCounselors() {
         List<Counselor> list = new ArrayList<>();
         String sql = "SELECT * FROM COUNSELORS";
 
@@ -48,7 +48,7 @@ public class CounselorDAO {
     }
 
     // UPDATE counselor by ID
-    public static void updateCounselor(Counselor counselor) {
+    public void updateCounselor(Counselor counselor) {
         String sql = "UPDATE COUNSELORS SET name = ?, specialization = ?, availability = ? WHERE id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -66,7 +66,7 @@ public class CounselorDAO {
     }
 
     // DELETE counselor by ID
-    public static void deleteCounselor(int id) {
+    public void deleteCounselor(int id) {
         String sql = "DELETE FROM COUNSELORS WHERE id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
