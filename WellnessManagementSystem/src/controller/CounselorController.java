@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import model.CounselorDAO;
 import model.Counselor;
 import java.util.List;
@@ -24,14 +25,23 @@ public class CounselorController {
     }
 
     // Get all counselors
-    public List<Counselor> getAllCounselors() {
-        try {
-            return dao.getAllCounselors();
-        } catch (Exception e) {
-            System.err.println("Error retrieving counselors: " + e.getMessage());
-            return null;
-        }
+public List<String> getAllCounselorNames() {
+    List<String> names = new ArrayList<>();
+    List<Counselor> counselors = dao.getAllCounselors();
+
+    for (Counselor c : counselors) {
+        names.add(c.getName());
     }
+
+    return names;
+}
+
+// Get full counselor list (for tables)
+public List<Counselor> getAllCounselors() {
+            return dao.getAllCounselors();
+}
+
+
 
     // Update an existing counselor
     public void updateCounselor(int id, String name, String specialization, String availability) {

@@ -12,15 +12,15 @@ public class AppointmentController {
     }
 
     // Book new appointment
-    public void addAppointment(String student, String counselor, String date, String time, String status) {
-        Appointment appt = new Appointment(student, counselor, date, time, status);
-        try {
-            dao.addAppointment(appt);
-            System.out.println("Appointment added.");
-        } catch (Exception e) {
-            System.err.println("Error booking appointment: " + e.getMessage());
-        }
+    public void addAppointment(Appointment appt) {
+    try {
+        dao.addAppointment(appt);
+        System.out.println("Appointment added.");
+    } catch (Exception e) {
+        System.err.println("Error booking appointment: " + e.getMessage());
     }
+}
+
 
     // View all appointments
     public List<Appointment> getAllAppointments() {
